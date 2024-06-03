@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -13,27 +14,24 @@ func main() {
 }
 
 func contextCancel() {
-	// создаем контекст с отменой
+	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())
-	// запускаем горутину с этим контекстом
-	go worker(ctx)
-	// ждем 3 секунды
+
+	wg.Add(1)
+	go worker(ctx, &wg)
 	time.Sleep(3 * time.Second)
-	// отменяем контекст
 	cancel()
-	// ждем еще 2 секунды
-	time.Sleep(2 * time.Second)
+	wg.Wait()
 }
 
-func worker(ctx context.Context) {
+func worker(ctx context.Context, wg *sync.WaitGroup) {
+	defer wg.Done()
 	for {
 		select {
 		case <-ctx.Done():
-			// контекст отменен, выходим из горутины
 			fmt.Println("\033[31mworker stopped\033[0m")
 			return
 		default:
-			// продолжаем работать
 			fmt.Println("\033[31mworker working\033[0m")
 			time.Sleep(time.Second)
 		}
@@ -41,28 +39,24 @@ func worker(ctx context.Context) {
 }
 
 func channel() {
-	// создаем канал для передачи сигнала остановки
+	var wg sync.WaitGroup
 	stop := make(chan bool)
-	// запускаем горутину с этим каналом
-	go workerChannel(stop)
-	// ждем 3 секунды
+	wg.Add(1)
+	go workerChannel(stop, &wg)
 	time.Sleep(3 * time.Second)
-	// отправляем сигнал остановки в канал
 	stop <- true
-	// ждем еще 2 секунды
-	time.Sleep(2 * time.Second)
-
+	wg.Wait()
 }
 
-func workerChannel(stop chan bool) {
+func workerChannel(stop chan bool, wg *sync.WaitGroup) {
+	defer wg.Done()
 	for {
 		select {
 		case <-stop:
-			// получили сигнал остановки, выходим из горутины
+			time.Sleep(time.Second)
 			fmt.Println("\033[32mworker stopped\033[0m")
 			return
 		default:
-			// продолжаем работать
 			fmt.Println("\033[32mworker working\033[0m")
 			time.Sleep(time.Second)
 		}
@@ -70,26 +64,27 @@ func workerChannel(stop chan bool) {
 }
 
 func timeout() {
-	// создаем канал для получения результата работы
+	var wg sync.WaitGroup
 	result := make(chan string)
-	fmt.Println("\033[33mworker working\033[0m")
-	// запускаем горутину с этим каналом
-	go workerTimeout(result)
-	// устанавливаем таймаут в 3 секунды
-	timeout := time.After(3 * time.Second)
-	select {
-	case res := <-result:
-		// получили результат работы до таймаута
-		fmt.Println("\033[33mworker finished:\033[0m", res)
-	case <-timeout:
-		// время вышло, прерываем горутину
-		fmt.Println("\033[33mworker timeout\033[0m")
+
+	wg.Add(1)
+	go workerTimeout(result, &wg)
+
+	for {
+		msg := <-result
+		fmt.Println("\033[33mworker :\033[0m", msg)
+		if msg == "success" {
+			break
+		}
+		time.Sleep(time.Second)
 	}
+	wg.Wait()
 }
 
-func workerTimeout(result chan string) {
-	// имитируем долгую работу
-	time.Sleep(1 * time.Second)
-	// отправляем результат в канал
+func workerTimeout(result chan string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for start := time.Now(); time.Since(start) < 3*time.Second; {
+		result <- "work"
+	}
 	result <- "success"
 }
