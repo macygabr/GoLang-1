@@ -1,30 +1,43 @@
 package main
 
 import (
+	"fmt"
 	"sync"
 )
 
 func main() {
+	data := [6]int{2, 3, 5, 7, 11, 13}
+
 	var wg sync.WaitGroup
-	pack := make(chan int)
+	arr := make(chan int, 5)
+	pack := make(chan int, 5)
 
-	wg.Add(1)
-	go NurlanTheBest(&wg, &pack)
-
-	wg.Add(1)
-	go macygabr(&wg, &pack)
-
+	wg.Add(3)
+	go generator(&wg, arr, data)
+	go squares(&wg, arr, pack)
+	go listener(&wg, pack)
 	wg.Wait()
 }
 
-func NurlanTheBest(wg *sync.WaitGroup, pack *chan int) {
+func generator(wg *sync.WaitGroup, arr chan int, data [6]int) {
 	defer wg.Done()
-	for i := 0; i < 10; i++ {
-		(*pack) <- i
+	for i := 0; i < len(data); i++ {
+		arr <- data[i]
 	}
+	close(arr)
 }
 
-func macygabr(wg *sync.WaitGroup, pack *chan int) {
+func squares(wg *sync.WaitGroup, arr chan int, pack chan int) {
 	defer wg.Done()
-	// fmt.Println(<-pack)
+	for x := range arr {
+		pack <- 2 * x
+	}
+	close(pack)
+}
+
+func listener(wg *sync.WaitGroup, pack chan int) {
+	defer wg.Done()
+	for x := range pack {
+		fmt.Println(x)
+	}
 }
