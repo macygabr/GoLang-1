@@ -12,9 +12,7 @@ type cont struct {
 
 func main() {
 	var cont cont
-
 	cont.arr = [5]int{2, 4, 6, 8, 10}
-
 	var wg sync.WaitGroup
 
 	for i := 0; i < len(cont.arr); i++ {

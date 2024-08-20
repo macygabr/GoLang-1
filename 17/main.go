@@ -20,7 +20,6 @@ func binarySearch(arr []int, target int) (int, bool) {
 			right = mid - 1
 		}
 	}
-
 	return 0, false
 }
 

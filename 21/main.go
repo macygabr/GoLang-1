@@ -42,5 +42,6 @@ func (a *SquareToCircleAdapter) Circumference() float64 {
 func main() {
 	mySquare := &MySquare{side: 4}
 	adapter := &SquareToCircleAdapter{square: mySquare}
+
 	fmt.Printf("Circumference of the equivalent circle: %.2f\n", adapter.Circumference())
 }

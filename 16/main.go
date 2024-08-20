@@ -17,7 +17,6 @@ func quickHoaraSort[a inter](arr []a, start int, end int) {
 	if start >= end {
 		return
 	}
-
 	rightStart := partOfSortHoara(arr, start, end)
 	quickHoaraSort(arr, start, rightStart-1)
 	quickHoaraSort(arr, rightStart, end)

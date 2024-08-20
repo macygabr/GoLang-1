@@ -7,7 +7,6 @@ import (
 func main() {
 	set1 := []int{1, 2, 3, 4, 5}
 	set2 := []int{4, 5, 6, 7, 1}
-
 	res := intersection(set1, set2)
 	fmt.Println(res)
 }

@@ -16,5 +16,6 @@ func checkString(testString string) bool {
 		}
 		charMap[char] = true
 	}
+
 	return true
 }

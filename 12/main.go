@@ -11,6 +11,5 @@ func main() {
 	for _, element := range sequence {
 		set[element] = set[element] + 1
 	}
-
 	fmt.Println(set)
 }

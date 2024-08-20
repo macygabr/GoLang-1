@@ -34,9 +34,7 @@ func main() {
 		fmt.Println("Usage: go run main.go <number_of_workers>")
 		return
 	}
-
 	numWorkers, err := strconv.Atoi(os.Args[1])
-
 	if err != nil || numWorkers <= 0 {
 		fmt.Println("Invalid number of workers:", os.Args[1])
 		return
@@ -44,13 +42,11 @@ func main() {
 
 	jobChan := make(chan Job)
 	go produceJob(jobChan)
-
 	var wg sync.WaitGroup
 
 	for i := 1; i <= numWorkers; i++ {
 		wg.Add(1)
 		go worker(i, jobChan, &wg)
 	}
-
 	wg.Wait()
 }

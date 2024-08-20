@@ -11,5 +11,6 @@ func main() {
 }
 
 func remove(slice []int, i int) []int {
+
 	return append(slice[:i], slice[i+1:]...)
 }

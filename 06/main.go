@@ -16,7 +16,6 @@ func main() {
 func contextCancel() {
 	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())
-
 	wg.Add(1)
 	go worker(ctx, &wg)
 	time.Sleep(3 * time.Second)

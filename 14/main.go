@@ -17,4 +17,5 @@ func main() {
 
 	x = make(chan int)
 	fmt.Println("Type", reflect.TypeOf(x))
+
 }

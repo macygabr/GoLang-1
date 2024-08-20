@@ -12,5 +12,6 @@ func MySleep(duration time.Duration) {
 func main() {
 	fmt.Println("Start")
 	MySleep(2 * time.Second)
+
 	fmt.Println("End after 2 seconds")
 }

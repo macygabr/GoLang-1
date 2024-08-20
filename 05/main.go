@@ -33,7 +33,6 @@ func main() {
 	go produceJob(jobChan, 10)
 
 	var wg sync.WaitGroup
-
 	for i := 1; i <= 10; i++ {
 		wg.Add(1)
 		go worker(i, jobChan, &wg)

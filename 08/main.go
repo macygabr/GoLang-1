@@ -13,7 +13,6 @@ func main() {
 	x = 10000
 	i = 5
 	byt = 1
-
 	fmt.Printf("%064b\n", x)
 	mask = mask << i
 	fmt.Printf("%064b\n", mask)

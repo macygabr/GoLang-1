@@ -13,7 +13,6 @@ func main() {
 		wg.Add(1)
 		go add(&wg, &mu, &mymap, i)
 	}
-
 	wg.Wait()
 	fmt.Println(mymap)
 }

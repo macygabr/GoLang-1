@@ -20,7 +20,6 @@ func main() {
 	go test(&wg, &mu, &value)
 	go test(&wg, &mu, &value)
 	wg.Wait()
-
 	fmt.Println(value.val)
 }
 

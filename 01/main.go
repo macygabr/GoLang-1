@@ -21,7 +21,6 @@ func (a *Action) move() {
 func main() {
 	man := Human{}
 	man.move()
-
 	act := Action{}
 	act.move()
 }

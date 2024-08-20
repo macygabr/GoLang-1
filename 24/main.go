@@ -20,7 +20,6 @@ func (p *Point) Distance(o *Point) float64 {
 func main() {
 	point1 := NewPoint(0, 0)
 	point2 := NewPoint(0, 3)
-
 	distance := point1.Distance(point2)
 	fmt.Println(distance)
 }

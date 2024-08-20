@@ -16,7 +16,6 @@ func main() {
 		arr: [5]int{2, 4, 6, 8, 10},
 		sum: 0,
 	}
-
 	var wg sync.WaitGroup
 
 	for i := 0; i < len(cont.arr); i++ {

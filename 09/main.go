@@ -11,7 +11,6 @@ func main() {
 	var wg sync.WaitGroup
 	arr := make(chan int, 5)
 	pack := make(chan int, 5)
-
 	wg.Add(3)
 	go generator(&wg, arr, data)
 	go squares(&wg, arr, pack)

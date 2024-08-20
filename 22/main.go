@@ -20,7 +20,6 @@ func main() {
 	sub.Sub(a, b)
 	mul.Mul(a, b)
 	div.Div(a, b)
-
 	fmt.Printf("a = %s\n", a.String())
 	fmt.Printf("b = %s\n", b.String())
 	fmt.Printf("a + b = %s\n", add.String())
